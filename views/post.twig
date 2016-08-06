@@ -1,0 +1,15 @@
+{% extends "leiaute.twig" %}
+
+{% block titulo %}Projeto Silex Post {{ post.id }}{% endblock %}
+{% block tituloPost %}Post {{ post.id }}{% endblock %}
+
+{% block conteudo %}
+<tr>
+  <th>ID</th>
+  <th>Conteúdo</th>
+</tr>
+  <tr>
+      <td>{{ post.id }}</td>
+      <td>{{ post.conteudo }}</td>
+  </tr>
+{% endblock %}

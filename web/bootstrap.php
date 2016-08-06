@@ -1,21 +1,26 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
+use AGR\Entity\Post;
 
 $app = new Silex\Application();
 $app['debug']=true;
 
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+  'twig.path' => __DIR__.'/../views'
+));
+
 $app['posts'] = function() {
   return array(
-    1 => array ( "id"=> 1, "conteudo"=> "conteudo post de id 1"),
-    2 => array ( "id"=> 2, "conteudo"=> "conteudo post de id 2"),
-    3 => array ( "id"=> 3, "conteudo"=> "conteudo post de id 3"),
-    4 => array ( "id"=> 4, "conteudo"=> "conteudo post de id 4"),
-    5 => array ( "id"=> 5, "conteudo"=> "conteudo post de id 5"),
-    6 => array ( "id"=> 6, "conteudo"=> "conteudo post de id 6"),
-    7 => array ( "id"=> 7, "conteudo"=> "conteudo post de id 7"),
-    8 => array ( "id"=> 8, "conteudo"=> "conteudo post de id 8"),
-    9 => array ( "id"=> 9, "conteudo"=> "conteudo post de id 9"),
-    10 => array ( "id"=> 10, "conteudo"=> "conteudo post de id 10")
+    new Post(1, "conteudo post de id 1"),
+    new Post(2, "conteudo post de id 2"),
+    new Post(3, "conteudo post de id 3"),
+    new Post(4, "conteudo post de id 4"),
+    new Post(5, "conteudo post de id 5"),
+    new Post(6, "conteudo post de id 6"),
+    new Post(7, "conteudo post de id 7"),
+    new Post(8, "conteudo post de id 8"),
+    new Post(9, "conteudo post de id 9"),
+    new Post(10, "conteudo post de id 10")
    );
 };
 

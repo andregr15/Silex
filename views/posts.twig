@@ -1,0 +1,23 @@
+{% extends "leiaute.twig" %}
+
+{% block titulo %}Projeto Silex Posts{% endblock %}
+{% block tituloPost %}Posts{% endblock %}
+{% block conteudo %}
+
+<tr>
+  <th>ID</th>
+  <th>Conteúdo</th>
+  <th></th>
+</tr>
+  {% for post in posts %}
+  <tr>
+      <td>{{ post.id }}</td>
+      <td>{{ post.conteudo }}</td>
+      <td><a href={{ path('_post', { id: post.id }) }}>Detalhe</a><br/></td>
+  </tr>
+  {% else %}
+  <tr>
+      <td>no post found</td>
+  </tr>
+  {% endfor %}
+{% endblock %}
