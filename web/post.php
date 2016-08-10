@@ -52,8 +52,18 @@ $post->post('/new', function(Request $request, Silex\Application $app) use($em) 
 
 $post->get('/editar/{id}', function(Silex\Application $app, $id) use($em) {
   try{
+    if(!isset($id))
+    {
+      $app->abort(500, "O id não pode ser nulo");
+    }
+
     $postRepository = $em->getRepository('AGR\Entity\Post');
     $post = $postRepository->loadPostById($id);
+
+    if(!isset($post))
+    {
+      $app->abort(500, "Não existe um post com o id solicitado");
+    }
   }
   catch(Exception $e) {
     $app->abort(500, 'Erro ao editar um post: '.  $e->getMessage(). "\n");
@@ -87,8 +97,19 @@ $post->post('/update/{id}', function(Request $request, Silex\Application $app) u
 
 $post->get('/excluir/{id}', function(Silex\Application $app, $id) use($em) {
   try{
+    if(!isset($id))
+    {
+      $app->abort(500, "O id não pode ser nulo");
+    }
+
     $postRepository = $em->getRepository('AGR\Entity\Post');
     $post = $postRepository->loadPostById($id);
+
+    if(!isset($post))
+    {
+      $app->abort(500, "Não existe um post com o id solicitado");
+    }
+
     $postRepository->delete($post);
   }
   catch(Exception $e) {
