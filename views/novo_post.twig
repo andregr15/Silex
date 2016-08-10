@@ -1,0 +1,18 @@
+{% extends "leiaute.twig" %}
+
+{% block titulo %}Projeto Silex Post{% endblock %}
+{% block tituloPost %}Novo Post{% endblock %}
+
+{% block conteudo %}
+<form action="{{path('incluir')}}" method="post">
+  <fieldset>
+   <center>
+      Título:<br>
+      <input type="text" name="titulo"><br>
+      Conteúdo:<br>
+      <textarea name="conteudo" rows="4" cols="50"></textarea><br>
+      <input type="submit" value="Salvar">
+    </center>
+  </fieldset>
+</form>
+{% endblock %}

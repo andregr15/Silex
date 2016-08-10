@@ -5,39 +5,40 @@ use Symfony\Component\HttpFoundation\Request;
 
 require_once 'bootstrap.php';
 
-$post = $app['controllers_factory'];
+$posts = $app['controllers_factory'];
 
-$post->get('/', function(Silex\Application $app) {
+$posts->get('/fixture', function(Silex\Application $app) use($em) {
   $posts = $app['posts'];
-  return $app['twig']->render('posts.twig', array("posts" => $posts));
-  /*
-  foreach($posts as $p)
-  {
-    echo "id: {$p->getId()} Conteúdo: {$p->getConteudo()} <a href=/posts/{$p->getId()}>    Detalhe</a><br/>";
+
+  try{
+    $postRepository = $em->getRepository('AGR\Entity\Post');
+    $postRepository->clearBd($em->getConnection());
+    foreach($posts as $post)
+    {
+      $postRepository->insert($post);
+    }
   }
-  return new Response("", 200);
-  */
+  catch(Exception $e) {
+    $app->abort(500, 'Erro fixture: '.  $e->getMessage(). "\n");
+  }
+
+  return new Response("Fixture executada", 200);
+})
+  ->bind("_posts");
+
+
+$posts->get('/', function(Silex\Application $app) use($em) {
+  try{
+    $postRepository = $em->getRepository('AGR\Entity\Post');
+    $posts = $postRepository->findAll();
+  }
+  catch(Exception $e) {
+    $app->abort(500, 'Erro exibir todos os posts: '.  $e->getMessage(). "\n");
+  }
+  return $app['twig']->render('posts.twig', array("posts" => $posts));
 })
   ->bind("posts");
 
-$post->get('/{id}', function(Silex\Application $app, $id) {
-  $posts = $app['posts'];
-
-  if(!isset($id))
-  {
-    $app->abort(500, "O id não pode ser nulo");
-  }
-
-  if(!isset($posts[$id -1]))
-  {
-    $app->abort(500, "Não existe um post com o id solicitado");
-  }
-
-  return $app['twig']->render('post.twig', array("post" => $posts[$id - 1]));
-})
-  ->assert('id', '\d+')
-  ->bind('_post');
-
-return $post;
+return $posts;
 
 ?>

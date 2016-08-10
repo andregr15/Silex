@@ -6,18 +6,26 @@
 
 <tr>
   <th>ID</th>
+  <th>Título</th>
   <th>Conteúdo</th>
+  <th></th>
+  <th></th>
   <th></th>
 </tr>
   {% for post in posts %}
   <tr>
       <td>{{ post.id }}</td>
+      <td>{{ post.titulo }}</td>
       <td>{{ post.conteudo }}</td>
       <td><a href={{ path('_post', { id: post.id }) }}>Detalhe</a><br/></td>
+      <td><a href={{ path('editar', { id: post.id }) }}>Editar</a><br/></td>
+      <td><a href={{ path('excluir', { id: post.id }) }}>Excluir</a><br/></td>
   </tr>
   {% else %}
   <tr>
       <td>no post found</td>
   </tr>
   {% endfor %}
+  <br>
+  <a href="{{path('novo')}}">Novo post</a>
 {% endblock %}
