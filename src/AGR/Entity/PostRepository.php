@@ -14,7 +14,7 @@ class PostRepository extends EntityRepository
 {
   public function loadPostById($id){
     if(!$id){
-      return "Id obrigatório!";
+      throw new InvalidArgumentException("Id inválido");
     }
 
     $post = $this->findOneById($id);
