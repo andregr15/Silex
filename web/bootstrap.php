@@ -5,6 +5,12 @@ use AGR\Entity\Post;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
+use Silex\Provider\SecurityServiceProvider;
+use Silex\Provider\SessionServiceProvider;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 $app = new Silex\Application();
 $app['debug'] = true;
 
@@ -40,6 +46,51 @@ $app['posts'] = function() {
     new Post(10, "titulo post 10", "conteudo post de id 10")
    );
 };
+
+
+$app['user_repository'] = function($app) use ($em){
+  $user = new AGR\Entity\User();
+  $repo = $em->getRepository('AGR\Entity\User');
+  $repo->setPasswordEncoder($app['security.encoder_factory']->getEncoder($user));
+  return $repo;
+};
+
+
+$app->register(new Silex\Provider\SessionServiceProvider());
+
+
+$app->register(new SecurityServiceProvider(), array(
+  'security.firewalls' => array(
+    'admin' => array(
+      'anonymous' => true,
+      'pattern'   => '^/',
+      'form'      => array('login_path' => '/', 'check_path' => '/admin/login_check', 'default_target_path' => '/posts'
+      ),
+      'users'     => function () use($app){
+        return $app['user_repository'];
+        },
+      'logout'    => array('logout_path' => '/admin/logout', 'invalidate_session' => true),
+    )
+  )
+));
+
+$app->get('/', function(Request $request) use ($app) {
+  return $app['twig']->render('index.twig.html', array(
+    'error'         => $app['security.last_error']($request) == 'Bad credentials.' ? 'Usuário não cadastrado.' : $app['security.last_error']($request),
+    'last_username' => $app['session']->get('_security.last_username')
+  ));
+})
+  ->bind('login');
+
+
+  $app['security.access_rules'] = array (
+  array('^/posts', 'ROLE_USER'),
+  array('^/post', 'ROLE_USER')
+);
+
+$app['security.role_hierarchy'] = array(
+    'ROLE_ADMIN' => array('ROLE_USER')
+);
 
 return $app;
 ?>

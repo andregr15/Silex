@@ -4,7 +4,10 @@
 		"twig/twig": "^1.24",
 		"symfony/twig-bridge": "^3.1",
 		"doctrine/orm": "^2.5",
-		"doctrine/dbal": "^2.5"
+		"doctrine/dbal": "^2.5",
+		"gedmo/doctrine-extensions":"*",
+        "symfony/security": "3.1.*",
+        "symfony/serializer": "3.1.*"
 	},
 	"config": {
 		"bin-dir": "bin/"

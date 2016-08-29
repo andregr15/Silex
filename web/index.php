@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 $app->mount("/posts", include 'posts.php');
 $app->mount("/post", include 'post.php');
+$app->mount("/", include 'user.php');
 
 $app->run();
 
