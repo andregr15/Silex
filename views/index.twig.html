@@ -1,0 +1,31 @@
+{% extends "leiaute.twig" %}
+
+{% block titulo %}Projeto Silex Posts{% endblock %}
+{% block tituloPost %}Login{% endblock %}
+{% block conteudo %}
+
+<div id="box">
+	<div id="painel_de_login">
+    	  <form action="{{ path('admin_login_check') }}" enctype="multipart/form-data" name="login" method="POST">
+				{% if error %}
+		      <div class="alert alert-error">
+		        {{ error }}
+		      </div>
+		    {% endif %}
+			  <fieldset>
+            	<legend>Você precisa se logar!</legend>
+                <label>
+                	<span>Usuário:</span>
+                  <input type="text" id="inputUsername" placeholder="Username" name="_username" value="{{ last_username }}"/>
+                </label>
+                <label>
+                	<span>Senha:</span>
+                    <input type="password" id="inputPassword" name="_password" placeholder="Password"/>
+                </label>
+                <input type="submit" name="logar" value="Login" class="login_btn"/>
+            </fieldset>
+        </form>
+	</div><!--painel de login-->
+</div> <!-- box -->
+
+{% endblock %}

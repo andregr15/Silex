@@ -1,0 +1,30 @@
+{% extends "leiaute.twig" %}
+
+{% block titulo %}Projeto Silex Posts{% endblock %}
+{% block tituloPost %}Cadastro de Usuário{% endblock %}
+{% block conteudo %}
+
+<div id="box">
+	<div id="painel_de_login">
+    	  <form action="{{ path('_cadastroUsuario') }}" enctype="multipart/form-data" name="login" method="POST">
+          {% if statusCadastro %}
+            <div class="alert alert-error">
+              {{ statusCadastro }}
+            </div>
+          {% endif %}
+				<fieldset>
+            	  <label>
+                	<span>Nome:</span>
+                  <input type="text" id="inputUsername" placeholder="Username" name="_username"/>
+                </label>
+                <label>
+                	<span>Senha:</span>
+                    <input type="password" id="inputPassword" name="_password" placeholder="Password"/>
+                </label>
+                <input type="submit" name="cadastrar" value="Cadastrar" class="login_btn"/>
+            </fieldset>
+        </form>
+	</div><!--painel de login-->
+</div> <!-- box -->
+
+{% endblock %}
